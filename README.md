@@ -5,6 +5,13 @@
 
 [[License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Language Versions / 言語選択
+
+- **English**: [README.md](README.md) (this file)
+- **日本語**: [README_ja.md](README_ja.md)
+
+---
+
 `sb3-grpo` is a [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3) (SB3) compatible implementation of **Group Relative Policy Optimization (GRPO)**.
 
 This algorithm can be used as a drop-in replacement for standard PPO, providing stable learning especially in environments where rewards can be densely defined for states and actions.
@@ -159,10 +166,48 @@ python example.py
 
 As training progresses, standard SB3 logs will be displayed. If the agent can maintain CartPole upright for extended periods after training, it's successful.
 
-## Language Versions
+## API Reference
 
-- **English**: [README.md](README.md) (this file)
-- **日本語**: [README_ja.md](README_ja.md)
+### GRPO Class
+
+```python
+class GRPO(PPO):
+    """
+    Group Relative Policy Optimization (GRPO) implementation extending PPO.
+    
+    Args:
+        policy: The policy model to use (MlpPolicy, CnnPolicy, ...)
+        env: The environment to learn from
+        reward_function: Function to calculate rewards from (state, action, next_state)
+        **kwargs: Other standard PPO arguments (learning_rate, n_steps, etc.)
+    """
+```
+
+### Reward Function Interface
+
+Your reward function must follow this signature:
+
+```python
+def your_reward_function(
+    state: torch.Tensor,      # Current state [batch_size, state_dim]
+    action: torch.Tensor,     # Action taken [batch_size, 1]  
+    next_state: torch.Tensor  # Resulting state [batch_size, state_dim]
+) -> torch.Tensor:            # Returns: rewards [batch_size, 1]
+    # Your reward calculation logic here
+    return rewards
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+### Development Setup
+
+```bash
+git clone https://github.com/kechirojp/sb3-grpo.git
+cd sb3-grpo
+pip install -e .[dev]  # Install with development dependencies
+```
 
 ## License
 

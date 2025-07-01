@@ -3,6 +3,11 @@ grpo_アクションサンプル用メモリサイズ.md
 grpoの流れ.md
 README_ja.md
 
+# Example outputs and temporary files
+example_outputs/
+temp/
+*.tmp
+
 # Python
 __pycache__/
 *.py[cod]

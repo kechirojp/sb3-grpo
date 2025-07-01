@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, "3.10", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .[dev]
+    
+    - name: Lint with flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
+    
+    - name: Check code formatting with black
+      run: |
+        black --check .
+    
+    - name: Type checking with mypy
+      run: |
+        mypy . --ignore-missing-imports
+    
+    - name: Test installation
+      run: |
+        python -c "from sb3_grpo import GRPO; print('Import successful!')"
+    
+    - name: Run basic functionality test
+      run: |
+        python -c "
+        import gymnasium as gym
+        import torch
+        from stable_baselines3.common.vec_env import DummyVecEnv
+        from sb3_grpo import GRPO
+        
+        def simple_reward(state, action, next_state):
+            return torch.ones(state.shape[0], 1)
+        
+        env = DummyVecEnv([lambda: gym.make('CartPole-v1')])
+        agent = GRPO('MlpPolicy', env, reward_function=simple_reward, verbose=0)
+        agent.learn(total_timesteps=100)
+        print('Basic functionality test passed!')
+        "
