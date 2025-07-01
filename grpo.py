@@ -180,7 +180,7 @@ class GRPO(PPO):
 
         # Let buffer calculate returns and advantages
         # At this point, GAE is calculated based on rewards (GRPO advantages)
-        rollout_buffer.compute_returns_and_advantages(last_values=last_values, dones=dones)
+        rollout_buffer.compute_returns_and_advantage(last_values=last_values, dones=dones)
         
         # *** Final GRPO touch ***
         # Overwrite GAE-calculated advantages with our pure GRPO advantages.
