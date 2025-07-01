@@ -3,7 +3,10 @@
 
 # SB3-GRPO: Group Relative Policy Optimization for Stable Baselines3
 
-[[License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
+![PyTorch](https://img.shields.io/badge/PyTorch-1.11%2B-orange.svg)
+![Stable-Baselines3](https://img.shields.io/badge/SB3-2.0%2B-red.svg)
 
 ## Language Versions / 言語選択
 
