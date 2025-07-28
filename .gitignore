@@ -5,6 +5,28 @@ github_運営ガイド.md
 GRPO_Technical_Guide.md
 Stock_Trading_GRPO_Guide.md
 
+# Internal development files
+github_description.txt
+github_topics.txt
+# Code Citations.md
+UNIQUE_VALUE_PROPOSITION.md
+職務経歴表_*.md
+職務経歴表_hunyuan3d-2.1-cachedstart.md
+職務経歴表_sb3-grpo.md
+
+# Test files and temporary development
+simple_test.py
+test_inference.py
+example_improved.py
+grpo_ppo.py
+
+# Empty or auto-generated
+README_en.md
+
+# Model files and logs
+models/
+logs/
+
 # Example outputs and temporary files
 example_outputs/
 temp/
