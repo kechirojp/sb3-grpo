@@ -1,0 +1,1 @@
+GRPO (Group Relative Policy Optimization) implementation for Stable Baselines3. Drop-in PPO replacement with instant action comparison. Easy pip install, full API compatibility. Used by DeepSeek for LLM training.

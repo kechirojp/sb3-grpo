@@ -200,6 +200,40 @@ def your_reward_function(
     return rewards
 ```
 
+## 🚀 Additional Feature: Web API
+
+**Optional**: GRPO is also available as a Web API for remote server deployment:
+
+```bash
+# Start API server
+python run_api.py
+# Server becomes available at: http://your-server:8000
+```
+
+```python
+# Train a model
+import requests
+response = requests.post("http://your-server:8000/train", json={
+    "env_name": "CartPole-v1", "total_timesteps": 1000, "model_name": "test"
+})
+
+# Make predictions
+prediction = requests.post("http://your-server:8000/inference", json={
+    "model_name": "test", "observation": [0.1, 0.0, 0.05, 0.0]
+})
+print(f"Action: {prediction.json()['action']}")
+```
+
+📖 **API Documentation**:
+
+- **Getting Started**: [はじめに.md](はじめに.md)
+- **Complete Guide**: [GRPO_API_使用ガイド.md](GRPO_API_使用ガイド.md)
+- **API Reference (EN)**: [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
+- **API Reference (JA)**: [API_DOCUMENTATION_ja.md](API_DOCUMENTATION_ja.md)
+- **Interactive Docs**: <http://localhost:8000/docs>
+
+*Note: The Web API is a supplementary feature. The core value of this project is the GRPO algorithm implementation for Stable Baselines3.*
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.

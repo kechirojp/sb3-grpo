@@ -170,6 +170,82 @@ python example.py
 
 学習が進むにつれて、SB3の標準的なログが出力されます。学習完了後、エージェントがCartPoleを長時間倒さずに維持できれば成功です。
 
+## APIリファレンス
+
+### GRPOクラス
+
+```python
+class GRPO(PPO):
+    """
+    Group Relative Policy Optimization (GRPO) PPOを拡張した実装
+    
+    Args:
+        policy: 使用するポリシーモデル (MlpPolicy, CnnPolicy, ...)
+        env: 学習する環境
+        reward_function: (state, action, next_state)から報酬を計算する関数
+        **kwargs: その他の標準PPO引数 (learning_rate, n_steps, など)
+    """
+```
+
+### 報酬関数インターフェース
+
+報酬関数は以下のシグネチャに従う必要があります：
+
+```python
+def your_reward_function(
+    state: torch.Tensor,      # 現在の状態 [batch_size, state_dim]
+    action: torch.Tensor,     # 実行された行動 [batch_size, 1]  
+    next_state: torch.Tensor  # 結果の状態 [batch_size, state_dim]
+) -> torch.Tensor:            # 返り値: 報酬 [batch_size, 1]
+    # ここに報酬計算ロジックを記述
+    return rewards
+```
+
+## 🚀 追加機能: WebAPI
+
+**オプション**: GRPOはリモートサーバー展開用のWebAPIとしても利用可能です：
+
+```bash
+# APIサーバー起動
+python run_api.py
+# サーバーが利用可能になります: http://your-server:8000
+```
+
+```python
+# モデル学習
+import requests
+response = requests.post("http://your-server:8000/train", json={
+    "env_name": "CartPole-v1", "total_timesteps": 1000, "model_name": "test"
+})
+
+# 推論実行
+prediction = requests.post("http://your-server:8000/inference", json={
+    "model_name": "test", "observation": [0.1, 0.0, 0.05, 0.0]
+})
+print(f"行動: {prediction.json()['action']}")
+```
+
+📖 **APIドキュメント**:
+
+- **入門ガイド**: [はじめに.md](はじめに.md)
+- **完全ガイド**: [GRPO_API_使用ガイド.md](GRPO_API_使用ガイド.md)
+- **API仕様**: [API_DOCUMENTATION_ja.md](API_DOCUMENTATION_ja.md)
+- **インタラクティブドキュメント**: <http://localhost:8000/docs>
+
+*注意: WebAPIは補完的な機能です。このプロジェクトの核心的価値は、Stable Baselines3用のGRPOアルゴリズム実装にあります。*
+
+## コントリビューション
+
+コントリビューションを歓迎します！プルリクエストをお気軽に提出してください。大きな変更については、まずissueを開いて議論することをお勧めします。
+
+### 開発環境のセットアップ
+
+```bash
+git clone https://github.com/kechirojp/sb3-grpo.git
+cd sb3-grpo
+pip install -e .[dev]  # 開発用依存関係と一緒にインストール
+```
+
 ## 言語バージョン
 
 - **English**: [README.md](README.md)
